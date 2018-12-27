@@ -1,0 +1,5 @@
+boto3
+structlog
+pytz
+aws_requests_auth
+elasticsearch

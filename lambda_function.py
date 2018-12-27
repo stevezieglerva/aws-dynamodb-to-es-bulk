@@ -19,16 +19,16 @@ def lambda_handler(event, context):
 		if "text_logging" in os.environ:
 			log = structlog.get_logger()
 		else:
-			log = setup_logging("aws-code-index-stream-bulk-load", event, aws_request_id)
+			log = setup_logging("aws-code-index-dynamodb-to-es-bulk", event, aws_request_id)
 
 		count = 0
 		dynamo_records_to_process = []
 		for event in event["Records"]:
 			if event["eventName"] == "INSERT":
 				key_indicator = event["dynamodb"]["Keys"]["key_indicator"]["S"]
-				print("Found: " + key_indicator)
-				dynamo_records_to_process.append(key_indicator)
 				count = count + 1
+				print(str(count) + " - Found: " + key_indicator)
+				dynamo_records_to_process.append(key_indicator)
 
 
 		log.critical("finished")
